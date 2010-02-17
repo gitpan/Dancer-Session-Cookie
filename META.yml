@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:                Dancer-Session-Cookie
-version:             0.1
+version:             0.11
 abstract:            Encrypted cookie-based session backend for Dancer
 license:             perl
 author:              
@@ -13,6 +13,7 @@ requires:
     Dancer:                        1.13
     String::CRC32:                 0
     Test::More:                    0
+    Test::NoWarnings:              0
 meta-spec:
     url:     http://module-build.sourceforge.net/META-spec-v1.3.html
     version: 1.3
