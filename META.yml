@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               Dancer-Session-Cookie
-version:            0.12
+version:            0.13
 abstract:           Encrypted cookie-based session backend for Dancer
 author:
     - Alex Kapranoff <kappa@cpan.org>
