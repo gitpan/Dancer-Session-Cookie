@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               Dancer-Session-Cookie
-version:            0.13
+version:            0.14
 abstract:           Encrypted cookie-based session backend for Dancer
 author:
     - Alex Kapranoff <kappa@cpan.org>
@@ -9,19 +9,22 @@ distribution_type:  module
 configure_requires:
     ExtUtils::MakeMaker:  0
 build_requires:
-    ExtUtils::MakeMaker:  0
+    Test::Exception:   0
+    Test::More:        0
+    Test::NoWarnings:  0
 requires:
     Crypt::CBC:        0
     Crypt::Rijndael:   0
     Dancer:            1.13
     String::CRC32:     0
+    Test::Exception:   0
     Test::More:        0
     Test::NoWarnings:  0
 no_index:
     directory:
         - t
         - inc
-generated_by:       ExtUtils::MakeMaker version 6.56
+generated_by:       ExtUtils::MakeMaker version 6.55_02
 meta-spec:
     url:      http://module-build.sourceforge.net/META-spec-v1.4.html
     version:  1.4

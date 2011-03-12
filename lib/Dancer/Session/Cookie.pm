@@ -8,13 +8,13 @@ use Crypt::CBC;
 use String::CRC32;
 use Crypt::Rijndael;
 
+use Dancer ();
 use Dancer::Config 'setting';
-use Dancer::ModuleLoader;
 use Storable     ();
 use MIME::Base64 ();
 
 use vars '$VERSION';
-$VERSION = '0.13';
+$VERSION = '0.14';
 
 # crydec
 my $CIPHER = undef;
@@ -60,6 +60,14 @@ sub create {
     return Dancer::Session::Cookie->new(id => 'empty');
 }
 
+
+# session_name was introduced to Dancer::Session::Abstract in 1.176
+# we have 1.130 as the minimum
+sub session_name {
+    my $self = shift;
+    return eval { $self->SUPER::session_name } || setting("session_name") || "dancer.session";
+}
+
 sub flush {
     my $self = shift;
 
@@ -67,18 +75,20 @@ sub flush {
     delete $self->{id};
     my $cipher_text = _encrypt(Storable::freeze($self));
 
-    my $SESSION_NAME = 'dancer.session';
-    Dancer::Cookies->cookies->{$SESSION_NAME} = Dancer::Cookie->new(
-        name  => $SESSION_NAME,
-        value => $cipher_text,
+    my $session_name = $self->session_name;
+    Dancer::set_cookie(
+        $session_name   => $cipher_text,
+        path  => setting("session_cookie_path") || "/",
+        secure=> setting("session_secure"),
     );
     $self->{id} = $cipher_text;
+
     return 1;
 }
 
 sub destroy {
-    my $SESSION_NAME = 'dancer.session';
-    delete Dancer::Cookies->cookies->{$SESSION_NAME};
+    my $self = shift;
+    delete Dancer::Cookies->cookies->{$self->session_name};
 
     return 1;
 }
@@ -160,6 +170,12 @@ least as secure as your database passwords or even more.
 Also, changing B<session_cookie_key> will have an effect of immediate
 invalidation of all sessions issued with the old value of key.
 
+B<session_cookie_path> can be used to control the path of the session
+cookie.  The default is /.
+
+The global B<session_secure> setting is honoured and a secure (https
+only) cookie will be used if set.
+
 =head1 DEPENDENCY
 
 This module depends on L<Crypt::CBC>, L<Crypt::Rijndael>,
@@ -172,6 +188,9 @@ This module has been written by Alex Kapranoff.
 =head1 SEE ALSO
 
 See L<Dancer::Session> for details about session usage in route handlers.
+
+See L<Plack::Middleware::Session::Cookie>,
+L<Catalyst::Plugin::CookiedSession>, L<Mojolicious::Controller/session> for alternative implementation of this mechanism.
 
 =head1 COPYRIGHT
 
