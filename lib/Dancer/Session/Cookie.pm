@@ -1,114 +1,149 @@
 package Dancer::Session::Cookie;
-
 use strict;
 use warnings;
+# ABSTRACT: Encrypted cookie-based session backend for Dancer
+our $VERSION = '0.001'; # VERSION
+
 use base 'Dancer::Session::Abstract';
 
+use Session::Storage::Secure;
 use Crypt::CBC;
 use String::CRC32;
 use Crypt::Rijndael;
 
-use Dancer ();
-use Dancer::Config 'setting';
+use Dancer ':syntax';
 use Storable     ();
 use MIME::Base64 ();
 
-use vars '$VERSION';
-$VERSION = '0.15';
-
 # crydec
 my $CIPHER = undef;
+my $STORE = undef;
+
+# cache session here instead of flushing/reading from cookie all the time
+my $SESSION = undef;
 
 sub init {
-    my ($class) = @_;
+    my ($self) = @_;
+
+    $self->SUPER::init();
 
     my $key = setting("session_cookie_key")  # XXX default to smth with warning
       or die "The setting session_cookie_key must be defined";
+
+    my $expires = setting('session_expires');
 
     $CIPHER = Crypt::CBC->new(
         -key    => $key,
         -cipher => 'Rijndael',
     );
+
+    $STORE = Session::Storage::Secure->new(
+        secret_key => $key,
+        ( $expires ? (default_duration => $expires) : () ),
+    );
 }
 
-sub new {
-    my $self = Dancer::Object::new(@_);
-
-    # id is not needed here because the whole serialized session is
-    # the "id"
-    return $self;
+# return our cached ID if we have it instead of looking in a cookie
+sub read_session_id {
+    my ($self) = @_;
+    return $SESSION->id
+      if defined $SESSION;
+    return $self->SUPER::read_session_id;
 }
 
 sub retrieve {
     my ($class, $id) = @_;
+    # if we have a cached session, hand that back instead
+    # of decrypting again
+    return $SESSION
+      if $SESSION && $SESSION->id eq $id;
 
     my $ses = eval {
-        # 1. decrypt and deserialize $id
-        my $plain_text = _decrypt($id);
-
-        # 2. deserialize
-        $plain_text && Storable::thaw($plain_text);
+        if ( my $hash = $STORE->decode($id) ) {
+            # we recover a plain hash, so reconstruct into object
+            bless $hash, $class;
+        }
+        else {
+            _old_retrieve($id)
+        }
     };
 
-    $ses and $ses->{id} = $id;
+    return $SESSION = $ses;
+}
 
-    return $ses;
+# support decoding old cookies
+sub _old_retrieve {
+    my ($id) = @_;
+    # 1. decrypt and deserialize $id
+    my $plain_text = _old_decrypt($id);
+    # 2. deserialize
+    $plain_text && Storable::thaw($plain_text);
 }
 
 sub create {
     my $class = shift;
-    return Dancer::Session::Cookie->new(id => 'empty');
+    # cache the newly created session
+    return $SESSION = Dancer::Session::Cookie->new;
 }
 
+# we don't write session ID when told; we do it in the after hook
+sub write_session_id {}
 
-# session_name was introduced to Dancer::Session::Abstract in 1.176
-# we have 1.130 as the minimum
-sub session_name {
-    my $self = shift;
-    return eval { $self->SUPER::session_name } || setting("session_name") || "dancer.session";
-}
-
-sub flush {
-    my $self = shift;
-
-    # 1. serialize and encrypt session
-    delete $self->{id};
-    my $cipher_text = _encrypt(Storable::freeze($self));
-
-    my $session_name = $self->session_name;
-    Dancer::set_cookie(
-        $session_name   => $cipher_text,
-        path  => setting("session_cookie_path") || "/",
-        secure=> setting("session_secure"),
-    );
-    $self->{id} = $cipher_text;
-
-    return 1;
-}
+# we don't flush when we're told; we do it in the after hook
+sub flush {}
 
 sub destroy {
     my $self = shift;
-    delete Dancer::Cookies->cookies->{$self->session_name};
+
+    # gross hack; replace guts with new session guts
+    %$self = %{ Dancer::Session::Cookie->new };
 
     return 1;
 }
 
-sub _encrypt {
-    my $plain_text = shift;
+# Copied from Dancer::Session::Abstract::write_session_id and
+# refactored for testing
+hook 'after' => sub {
+    if ( $SESSION ) {
+        my $c = Dancer::Cookie->new($SESSION->_cookie_params);
+        Dancer::Cookies->set_cookie_object($c->name => $c);
+        undef $SESSION; # clear for next request
+    }
+};
 
-    my $crc32 = String::CRC32::crc32($plain_text);
-
-    # XXX should gzip data if it grows too big. CRC32 won't be needed
-    # then.
-    my $res =
-      MIME::Base64::encode($CIPHER->encrypt(pack('La*', $crc32, $plain_text)),
-        q{});
-    $res =~ tr{=+/}{_*-};    # cookie-safe Base64
-
-    return $res;
+# modified from Dancer::Session::Abstract::write_session_id to add
+# support for session_cookie_path
+sub _cookie_params {
+    my $self = shift;
+    my $name = $self->session_name;
+    my $expires = setting('session_expires');
+    my %cookie = (
+        name   => $name,
+        value  => $self->_cookie_value($expires),
+        path   => setting('session_cookie_path') || '/',
+        domain => setting('session_domain'),
+        secure => setting('session_secure'),
+        http_only => defined(setting("session_is_http_only")) ?
+                     setting("session_is_http_only") : 1,
+    );
+    if (my $expires = setting('session_expires')) {
+        # It's # of seconds from the current time
+        # Otherwise just feed it through.
+        $expires = Dancer::Cookie::_epoch_to_gmtstring(time + $expires) if $expires =~ /^\d+$/;
+        $cookie{expires} = $expires;
+    }
+    return %cookie;
 }
 
-sub _decrypt {
+# refactored for testing
+sub _cookie_value {
+    my ($self, $expires) = @_;
+    # copy self guts so we aren't serializing a blessed object
+    return $STORE->encode({ %$self }, $expires);
+}
+
+# legacy algorithm
+sub _old_decrypt {
     my $cookie = shift;
 
     $cookie =~ tr{_*-}{=+/};
@@ -120,6 +155,7 @@ sub _decrypt {
 }
 
 1;
+
 __END__
 
 =pod
@@ -127,6 +163,10 @@ __END__
 =head1 NAME
 
 Dancer::Session::Cookie - Encrypted cookie-based session backend for Dancer
+
+=head1 VERSION
+
+version 0.001
 
 =head1 SYNOPSIS
 
@@ -178,12 +218,9 @@ only) cookie will be used if set.
 
 =head1 DEPENDENCY
 
-This module depends on L<Crypt::CBC>, L<Crypt::Rijndael>,
-L<String::CRC32>, L<Storable> and L<MIME::Base64>.
-
-=head1 AUTHOR
-
-This module has been written by Alex Kapranoff.
+This module depends on L<Session::Storage::Secure>.  Legacy support is provided
+using L<Crypt::CBC>, L<Crypt::Rijndael>, L<String::CRC32>, L<Storable> and
+L<MIME::Base64>.
 
 =head1 SEE ALSO
 
@@ -192,13 +229,48 @@ See L<Dancer::Session> for details about session usage in route handlers.
 See L<Plack::Middleware::Session::Cookie>,
 L<Catalyst::Plugin::CookiedSession>, L<Mojolicious::Controller/session> for alternative implementation of this mechanism.
 
-=head1 COPYRIGHT
+=for :stopwords cpan testmatrix url annocpan anno bugtracker rt cpants kwalitee diff irc mailto metadata placeholders metacpan
 
-This module is copyright (c) 2009-2010 Alex Kapranoff <kappa@cpan.org>.
+=head1 SUPPORT
 
-=head1 LICENSE
+=head2 Bugs / Feature Requests
 
-This module is free software and is released under the same terms as Perl
-itself.
+Please report any bugs or feature requests through the issue tracker
+at L<https://github.com/dagolden/dancer-session-cookie/issues>.
+You will be notified automatically of any progress on your issue.
+
+=head2 Source Code
+
+This is open source software.  The code repository is available for
+public review and contribution under the terms of the license.
+
+L<https://github.com/dagolden/dancer-session-cookie>
+
+  git clone git://github.com/dagolden/dancer-session-cookie.git
+
+=head1 AUTHORS
+
+=over 4
+
+=item *
+
+Alex Kapranoff <kappa@cpan.org>
+
+=item *
+
+Alex Sukria <sukria@cpan.org>
+
+=item *
+
+David Golden <dagolden@cpan.org>
+
+=back
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2013 by Alex Kapranoff.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
 
 =cut

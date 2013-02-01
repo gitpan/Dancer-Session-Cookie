@@ -1,10 +1,90 @@
-Dancer::Session::Cookie - encrypted cookie-based
-session backend for Dancer framework.
+NAME
+    Dancer::Session::Cookie - Encrypted cookie-based session backend for
+    Dancer
 
-This module implements a session engine for sessions stored entirely
-in cookies. Usually only session id is stored in cookies and the
-session data itself is saved in a database. This module allows to
-avoid using external storage at all.
+VERSION
+    version 0.001
 
-Since we cannot trust any data provided by client in cookies, we use
-cryptography to ensure integrity.
+SYNOPSIS
+    Your config.yml:
+
+        session: "cookie"
+        session_cookie_key: "this random key IS NOT very random"
+
+DESCRIPTION
+    This module implements a session engine for sessions stored entirely in
+    cookies. Usually only session id is stored in cookies and the session
+    data itself is saved in some external storage, e.g. database. This
+    module allows to avoid using external storage at all.
+
+    Since server cannot trust any data returned by client in cookies, this
+    module uses cryptography to ensure integrity and also secrecy. The data
+    your application stores in sessions is completely protected from both
+    tampering and analysis on the client-side.
+
+CONFIGURATION
+    The setting session should be set to "cookie" in order to use this
+    session engine in a Dancer application. See Dancer::Config.
+
+    A mandatory setting is needed as well: session_cookie_key, which should
+    contain a random string of at least 16 characters (shorter keys are not
+    cryptographically strong using AES in CBC mode).
+
+    Here is an example configuration to use in your config.yml:
+
+        session: "cookie"
+        session_cookie_key: "kjsdf07234hjf0sdkflj12*&(@*jk"
+
+    Compromising session_cookie_key will disclose session data to clients
+    and proxies or eavesdroppers and will also allow tampering, for example
+    session theft. So, your config.yml should be kept at least as secure as
+    your database passwords or even more.
+
+    Also, changing session_cookie_key will have an effect of immediate
+    invalidation of all sessions issued with the old value of key.
+
+    session_cookie_path can be used to control the path of the session
+    cookie. The default is /.
+
+    The global session_secure setting is honoured and a secure (https only)
+    cookie will be used if set.
+
+DEPENDENCY
+    This module depends on Session::Storage::Secure. Legacy support is
+    provided using Crypt::CBC, Crypt::Rijndael, String::CRC32, Storable and
+    MIME::Base64.
+
+SEE ALSO
+    See Dancer::Session for details about session usage in route handlers.
+
+    See Plack::Middleware::Session::Cookie,
+    Catalyst::Plugin::CookiedSession, "session" in Mojolicious::Controller
+    for alternative implementation of this mechanism.
+
+SUPPORT
+  Bugs / Feature Requests
+    Please report any bugs or feature requests through the issue tracker at
+    <https://github.com/dagolden/dancer-session-cookie/issues>. You will be
+    notified automatically of any progress on your issue.
+
+  Source Code
+    This is open source software. The code repository is available for
+    public review and contribution under the terms of the license.
+
+    <https://github.com/dagolden/dancer-session-cookie>
+
+      git clone git://github.com/dagolden/dancer-session-cookie.git
+
+AUTHORS
+    *   Alex Kapranoff <kappa@cpan.org>
+
+    *   Alex Sukria <sukria@cpan.org>
+
+    *   David Golden <dagolden@cpan.org>
+
+COPYRIGHT AND LICENSE
+    This software is copyright (c) 2013 by Alex Kapranoff.
+
+    This is free software; you can redistribute it and/or modify it under
+    the same terms as the Perl 5 programming language system itself.
+

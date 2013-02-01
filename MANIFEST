@@ -1,11 +1,13 @@
-.gitignore
 Changes
-lib/Dancer/Session/Cookie.pm
-Makefile.PL
+LICENSE
 MANIFEST
-MANIFEST.SKIP
+META.json
+META.yml
+Makefile.PL
 README
-t/00-load.t
+dist.ini
+lib/Dancer/Session/Cookie.pm
+t/00-compile.t
 t/01-session.t
 t/02-configfile.t
 t/03-path.t
@@ -13,6 +15,10 @@ t/03-server.t
 t/04-session_name.t
 t/05-session_secure.t
 t/data/config.yml
-t/manifest.t
-t/pod.t
-META.yml                                 Module meta-data (added by MakeMaker)
+xt/author/critic.t
+xt/author/pod-spell.t
+xt/release/distmeta.t
+xt/release/pod-coverage.t
+xt/release/pod-syntax.t
+xt/release/portability.t
+xt/release/test-version.t
