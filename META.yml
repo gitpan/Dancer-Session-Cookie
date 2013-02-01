@@ -37,7 +37,7 @@ no_index:
 provides:
   Dancer::Session::Cookie:
     file: lib/Dancer/Session/Cookie.pm
-    version: 0.001
+    version: 0.16
 requires:
   Crypt::CBC: 0
   Crypt::Rijndael: 0
@@ -55,4 +55,4 @@ resources:
   bugtracker: https://github.com/dagolden/dancer-session-cookie/issues
   homepage: https://metacpan.org/release/Dancer-Session-Cookie
   repository: git://github.com/dagolden/dancer-session-cookie.git
-version: 0.001
+version: 0.16
