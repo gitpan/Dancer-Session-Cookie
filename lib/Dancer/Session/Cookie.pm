@@ -2,7 +2,7 @@ package Dancer::Session::Cookie;
 use strict;
 use warnings;
 # ABSTRACT: Encrypted cookie-based session backend for Dancer
-our $VERSION = '0.16'; # VERSION
+our $VERSION = '0.17'; # VERSION
 
 use base 'Dancer::Session::Abstract';
 
@@ -166,7 +166,7 @@ Dancer::Session::Cookie - Encrypted cookie-based session backend for Dancer
 
 =head1 VERSION
 
-version 0.16
+version 0.17
 
 =head1 SYNOPSIS
 
