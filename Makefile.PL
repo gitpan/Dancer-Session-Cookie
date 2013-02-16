@@ -13,13 +13,16 @@ my %WriteMakefileArgs = (
   "AUTHOR" => "Alex Kapranoff <kappa\@cpan.org>, Alex Sukria <sukria\@cpan.org>, David Golden <dagolden\@cpan.org>",
   "BUILD_REQUIRES" => {
     "Dancer::ModuleLoader" => 0,
+    "ExtUtils::MakeMaker" => 0,
     "File::Find" => 0,
     "File::Spec" => 0,
+    "File::Spec::Functions" => 0,
     "File::Temp" => 0,
     "FindBin" => 0,
     "HTTP::Cookies" => 0,
     "LWP" => 0,
     "LWP::UserAgent" => 0,
+    "List::Util" => 0,
     "Test::Exception" => 0,
     "Test::More" => 0,
     "Test::NoWarnings" => 0,
@@ -45,7 +48,7 @@ my %WriteMakefileArgs = (
     "strict" => 0,
     "warnings" => 0
   },
-  "VERSION" => "0.17",
+  "VERSION" => "0.18",
   "test" => {
     "TESTS" => "t/*.t"
   }
