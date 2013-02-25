@@ -13,6 +13,8 @@ my @modules = qw(
   Crypt::CBC
   Crypt::Rijndael
   Dancer
+  Dancer::Cookie
+  Dancer::Cookies
   Dancer::ModuleLoader
   Dancer::Session::Abstract
   ExtUtils::MakeMaker
@@ -22,6 +24,7 @@ my @modules = qw(
   File::Temp
   FindBin
   HTTP::Cookies
+  HTTP::Date
   LWP
   LWP::UserAgent
   List::Util
@@ -33,6 +36,7 @@ my @modules = qw(
   Test::More
   Test::NoWarnings
   Test::TCP
+  Time::Duration::Parse
   base
   perl
   strict

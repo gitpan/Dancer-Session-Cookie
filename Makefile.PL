@@ -20,11 +20,12 @@ my %WriteMakefileArgs = (
     "File::Temp" => 0,
     "FindBin" => 0,
     "HTTP::Cookies" => 0,
+    "HTTP::Date" => 0,
     "LWP" => 0,
     "LWP::UserAgent" => 0,
     "List::Util" => 0,
     "Test::Exception" => 0,
-    "Test::More" => 0,
+    "Test::More" => "0.96",
     "Test::NoWarnings" => 0,
     "Test::TCP" => 0
   },
@@ -39,16 +40,19 @@ my %WriteMakefileArgs = (
     "Crypt::CBC" => 0,
     "Crypt::Rijndael" => 0,
     "Dancer" => 0,
+    "Dancer::Cookie" => 0,
+    "Dancer::Cookies" => 0,
     "Dancer::Session::Abstract" => 0,
     "MIME::Base64" => 0,
     "Session::Storage::Secure" => 0,
     "Storable" => 0,
     "String::CRC32" => 0,
+    "Time::Duration::Parse" => 0,
     "base" => 0,
     "strict" => 0,
     "warnings" => 0
   },
-  "VERSION" => "0.18",
+  "VERSION" => "0.19",
   "test" => {
     "TESTS" => "t/*.t"
   }

@@ -12,11 +12,11 @@ t/00-report-prereqs.t
 t/01-session.t
 t/02-configfile.t
 t/03-path.t
-t/03-server.t
 t/04-session_name.t
 t/05-session_secure.t
 t/06-redirect.t
 t/data/config.yml
+t/server.t
 xt/author/critic.t
 xt/author/pod-spell.t
 xt/release/distmeta.t
