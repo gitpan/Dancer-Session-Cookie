@@ -17,9 +17,11 @@ t/05-session_secure.t
 t/06-redirect.t
 t/data/config.yml
 t/server.t
+t/session-stealing.t
 xt/author/critic.t
 xt/author/pod-spell.t
 xt/release/distmeta.t
+xt/release/minimum-version.t
 xt/release/pod-coverage.t
 xt/release/pod-syntax.t
 xt/release/portability.t

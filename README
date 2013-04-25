@@ -3,7 +3,7 @@ NAME
     Dancer
 
 VERSION
-    version 0.19
+    version 0.20
 
 SYNOPSIS
     Your config.yml:
@@ -81,6 +81,11 @@ AUTHORS
     *   Alex Sukria <sukria@cpan.org>
 
     *   David Golden <dagolden@cpan.org>
+
+CONTRIBUTORS
+    *   Michael G. Schwern <schwern@pobox.com>
+
+    *   Neil Kirsopp <neil@broadbean.com>
 
 COPYRIGHT AND LICENSE
     This software is copyright (c) 2013 by Alex Kapranoff.

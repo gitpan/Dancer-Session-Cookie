@@ -1,5 +1,10 @@
 Revision history for Dancer-Session-Cookie
 
+0.20      2013-04-25 11:41:22 America/New_York
+
+    - Fix bug where session wasn't cleared correctly if route handler
+      died while processing a request
+
 0.19      2013-02-24 22:49:14 America/New_York
 
     - Fix bug with session_expires always expiring a cookie early

@@ -2,7 +2,7 @@ package Dancer::Session::Cookie;
 use strict;
 use warnings;
 # ABSTRACT: Encrypted cookie-based session backend for Dancer
-our $VERSION = '0.19'; # VERSION
+our $VERSION = '0.20'; # VERSION
 
 use base 'Dancer::Session::Abstract';
 
@@ -120,6 +120,11 @@ hook 'after' => sub {
     }
 };
 
+# Make sure that the session is initially undefined for every request
+hook 'before' => sub {
+	undef $SESSION;
+};
+
 # modified from Dancer::Session::Abstract::write_session_id to add
 # support for session_cookie_path
 sub _cookie_params {
@@ -179,13 +184,15 @@ __END__
 
 =pod
 
+=encoding utf-8
+
 =head1 NAME
 
 Dancer::Session::Cookie - Encrypted cookie-based session backend for Dancer
 
 =head1 VERSION
 
-version 0.19
+version 0.20
 
 =head1 SYNOPSIS
 
@@ -282,6 +289,20 @@ Alex Sukria <sukria@cpan.org>
 =item *
 
 David Golden <dagolden@cpan.org>
+
+=back
+
+=head1 CONTRIBUTORS
+
+=over 4
+
+=item *
+
+Michael G. Schwern <schwern@pobox.com>
+
+=item *
+
+Neil Kirsopp <neil@broadbean.com>
 
 =back
 
