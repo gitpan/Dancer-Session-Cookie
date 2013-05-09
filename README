@@ -3,7 +3,7 @@ NAME
     Dancer
 
 VERSION
-    version 0.20
+    version 0.21
 
 SYNOPSIS
     Your config.yml:
@@ -86,6 +86,8 @@ CONTRIBUTORS
     *   Michael G. Schwern <schwern@pobox.com>
 
     *   Neil Kirsopp <neil@broadbean.com>
+
+    *   Nick S. Knutov <nick@knutov.com>
 
 COPYRIGHT AND LICENSE
     This software is copyright (c) 2013 by Alex Kapranoff.

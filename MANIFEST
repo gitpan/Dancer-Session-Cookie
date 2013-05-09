@@ -16,6 +16,7 @@ t/04-session_name.t
 t/05-session_secure.t
 t/06-redirect.t
 t/data/config.yml
+t/redirect-session-dancer.t
 t/server.t
 t/session-stealing.t
 xt/author/critic.t

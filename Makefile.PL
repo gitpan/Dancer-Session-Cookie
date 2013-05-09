@@ -22,7 +22,7 @@ my %WriteMakefileArgs = (
   "PREREQ_PM" => {
     "Crypt::CBC" => 0,
     "Crypt::Rijndael" => 0,
-    "Dancer" => 0,
+    "Dancer" => "1.3113",
     "Dancer::Cookie" => 0,
     "Dancer::Cookies" => 0,
     "Dancer::Session::Abstract" => 0,
@@ -53,7 +53,7 @@ my %WriteMakefileArgs = (
     "Test::NoWarnings" => 0,
     "Test::TCP" => 0
   },
-  "VERSION" => "0.20",
+  "VERSION" => "0.21",
   "test" => {
     "TESTS" => "t/*.t"
   }
