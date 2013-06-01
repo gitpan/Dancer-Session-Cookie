@@ -1,5 +1,12 @@
 Revision history for Dancer-Session-Cookie
 
+0.22      2013-05-31 23:38:07 America/New_York
+
+    [CHANGED]
+
+    - Requires Session::Storage::Secure 0.007 for improved resistance
+      to timing attacks
+
 0.21      2013-05-08 22:33:10 America/New_York
 
     - Require Dancer 1.3113 and use its new features to fix more bugs

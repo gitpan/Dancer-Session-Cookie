@@ -27,7 +27,7 @@ my %WriteMakefileArgs = (
     "Dancer::Cookies" => 0,
     "Dancer::Session::Abstract" => 0,
     "MIME::Base64" => 0,
-    "Session::Storage::Secure" => 0,
+    "Session::Storage::Secure" => "0.007",
     "Storable" => 0,
     "String::CRC32" => 0,
     "Time::Duration::Parse" => 0,
@@ -53,7 +53,7 @@ my %WriteMakefileArgs = (
     "Test::NoWarnings" => 0,
     "Test::TCP" => 0
   },
-  "VERSION" => "0.21",
+  "VERSION" => "0.22",
   "test" => {
     "TESTS" => "t/*.t"
   }

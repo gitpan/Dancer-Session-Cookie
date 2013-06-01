@@ -2,11 +2,11 @@ package Dancer::Session::Cookie;
 use strict;
 use warnings;
 # ABSTRACT: Encrypted cookie-based session backend for Dancer
-our $VERSION = '0.21'; # VERSION
+our $VERSION = '0.22'; # VERSION
 
 use base 'Dancer::Session::Abstract';
 
-use Session::Storage::Secure;
+use Session::Storage::Secure 0.007;
 use Crypt::CBC;
 use String::CRC32;
 use Crypt::Rijndael;
@@ -192,7 +192,7 @@ Dancer::Session::Cookie - Encrypted cookie-based session backend for Dancer
 
 =head1 VERSION
 
-version 0.21
+version 0.22
 
 =head1 SYNOPSIS
 
