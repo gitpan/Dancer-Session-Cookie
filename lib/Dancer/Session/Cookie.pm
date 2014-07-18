@@ -1,12 +1,16 @@
 package Dancer::Session::Cookie;
+BEGIN {
+  $Dancer::Session::Cookie::AUTHORITY = 'cpan:YANICK';
+}
+$Dancer::Session::Cookie::VERSION = '0.23';
 use strict;
 use warnings;
 # ABSTRACT: Encrypted cookie-based session backend for Dancer
-our $VERSION = '0.22'; # VERSION
+# VERSION
 
 use base 'Dancer::Session::Abstract';
 
-use Session::Storage::Secure 0.007;
+use Session::Storage::Secure 0.010;
 use Crypt::CBC;
 use String::CRC32;
 use Crypt::Rijndael;
@@ -45,6 +49,8 @@ sub init {
     $STORE = Session::Storage::Secure->new(
         secret_key => $key,
         ( $duration ? ( default_duration => $duration ) : () ),
+        sereal_encoder_options => { snappy => 1, stringify_unknown => 1 },
+        sereal_decoder_options => { validate_utf8 => 1 },
     );
 }
 
@@ -86,7 +92,6 @@ sub _old_retrieve {
 }
 
 sub create {
-    my $class = shift;
     # cache the newly created session
     return $SESSION = Dancer::Session::Cookie->new;
 }
@@ -184,7 +189,7 @@ sub _old_decrypt {
 
 =pod
 
-=encoding utf-8
+=encoding UTF-8
 
 =head1 NAME
 
@@ -192,7 +197,7 @@ Dancer::Session::Cookie - Encrypted cookie-based session backend for Dancer
 
 =head1 VERSION
 
-version 0.22
+version 0.23
 
 =head1 SYNOPSIS
 
@@ -255,25 +260,6 @@ See L<Dancer::Session> for details about session usage in route handlers.
 See L<Plack::Middleware::Session::Cookie>,
 L<Catalyst::Plugin::CookiedSession>, L<Mojolicious::Controller/session> for alternative implementation of this mechanism.
 
-=for :stopwords cpan testmatrix url annocpan anno bugtracker rt cpants kwalitee diff irc mailto metadata placeholders metacpan
-
-=head1 SUPPORT
-
-=head2 Bugs / Feature Requests
-
-Please report any bugs or feature requests through the issue tracker
-at L<https://github.com/dagolden/dancer-session-cookie/issues>.
-You will be notified automatically of any progress on your issue.
-
-=head2 Source Code
-
-This is open source software.  The code repository is available for
-public review and contribution under the terms of the license.
-
-L<https://github.com/dagolden/dancer-session-cookie>
-
-  git clone git://github.com/dagolden/dancer-session-cookie.git
-
 =head1 AUTHORS
 
 =over 4
@@ -290,29 +276,15 @@ Alex Sukria <sukria@cpan.org>
 
 David Golden <dagolden@cpan.org>
 
-=back
-
-=head1 CONTRIBUTORS
-
-=over 4
-
 =item *
 
-Michael G. Schwern <schwern@pobox.com>
-
-=item *
-
-Neil Kirsopp <neil@broadbean.com>
-
-=item *
-
-Nick S. Knutov <nick@knutov.com>
+Yanick Champoux <yanick@cpan.org>
 
 =back
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2013 by Alex Kapranoff.
+This software is copyright (c) 2014 by Alex Kapranoff.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

@@ -1,0 +1,51 @@
+This file contains message digests of all files listed in MANIFEST,
+signed via the Module::Signature module, version 0.73.
+
+To verify the content in this distribution, first make sure you have
+Module::Signature installed, then type:
+
+    % cpansign -v
+
+It will check each file's integrity, as well as the signature's
+validity.  If "==> Signature verified OK! <==" is not displayed,
+the distribution may already have been compromised, and you should
+not run its Makefile.PL or Build.PL.
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+SHA1 8ff3e896cab0be43fcca8ae785b269faa62e6e72 Build.PL
+SHA1 48ff8525f9bb95f588978c21364015dd99f67bb8 CONTRIBUTORS
+SHA1 bb03482c938dd0105f2f45e3fd52539083c2b8ad Changes
+SHA1 c98e02fd3990b3b62eb4fc324b92a1fba92ace53 INSTALL
+SHA1 2a6414727e0074d2cef6b4167fa0b29454553c01 LICENSE
+SHA1 8b7939d6e39dcd53286c67360de0dd6737b627f1 MANIFEST
+SHA1 c5772bbbfecb397596dd40178064698e7dbfd09d MANIFEST.SKIP
+SHA1 c5ad4ab3892209ad2cf99881a92a0bc02589314b META.json
+SHA1 6155632bfde51fce91689846ba6063204988a9d8 META.yml
+SHA1 4c9817e3cec512b38ad5f06bfa5183fd90c54b4e README
+SHA1 034154b7d66460b19fa207a02064fde7291bd227 README.mkdn
+SHA1 62d22f798d395e4bffccdb58659ca4e3e5624c66 README.pod
+SHA1 9774967f9c6b5c9659307544b5c7c4ccc9cb1f03 dist.ini
+SHA1 975b5d546eaef9c9a191ee8ebf7f86d319854ab7 lib/Dancer/Session/Cookie.pm
+SHA1 163bf20b59b97196261f02963acca2fac83b6cbd t/00-compile.t
+SHA1 bf2513d36d4b421f0fa76af587eb70f095d073e6 t/000-report-versions-tiny.t
+SHA1 9cb51a810ef592ec1d3cb21525e987d70b3291cd t/01-session.t
+SHA1 2d07fabcb69b5852d93b3569f6ff0a711bfd7aaf t/02-configfile.t
+SHA1 573b7e63fb84bed7ff5c95b1628ebcd6e9940c1a t/03-path.t
+SHA1 16caf79a98eb428a808a804c8cf2e1b90d10301e t/04-session_name.t
+SHA1 a00dfdeb42af8f5f51cedd10af6292191ded2458 t/05-session_secure.t
+SHA1 be86fdc41d72e971e74f143e4d83099b26c9452b t/06-redirect.t
+SHA1 f6c45320f8fe14723a8f2e2510021c6b81d0ef0c t/data/config.yml
+SHA1 ea91ce45a7466561c5c62be83fb0fc45f35db21a t/redirect-session-dancer.t
+SHA1 6c099c54393367f5f5a21dc76a490db58de7fa08 t/server.t
+SHA1 2b3f7051280c0e2826f3fd8cb3c5721500055417 t/session-stealing.t
+SHA1 a960ffdbb5965f6a8f5f00ca58319cb22b7e8da0 t/store-objects.t
+SHA1 d1fe7d94b3edc7847eb187d4ee41f66e19cf8907 xt/release/unused-vars.t
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAlPIasoACgkQ34Hwf+GwC4y0CgCfUfDppRcMBLhJHH8SZOXBd5De
+nlkAoLAuoGFb9Du0u1mYiQeW3BPnyeuH
+=jbW5
+-----END PGP SIGNATURE-----

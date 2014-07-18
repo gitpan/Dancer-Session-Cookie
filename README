@@ -3,7 +3,7 @@ NAME
     Dancer
 
 VERSION
-    version 0.22
+    version 0.23
 
 SYNOPSIS
     Your config.yml:
@@ -61,20 +61,6 @@ SEE ALSO
     Catalyst::Plugin::CookiedSession, "session" in Mojolicious::Controller
     for alternative implementation of this mechanism.
 
-SUPPORT
-  Bugs / Feature Requests
-    Please report any bugs or feature requests through the issue tracker at
-    <https://github.com/dagolden/dancer-session-cookie/issues>. You will be
-    notified automatically of any progress on your issue.
-
-  Source Code
-    This is open source software. The code repository is available for
-    public review and contribution under the terms of the license.
-
-    <https://github.com/dagolden/dancer-session-cookie>
-
-      git clone git://github.com/dagolden/dancer-session-cookie.git
-
 AUTHORS
     *   Alex Kapranoff <kappa@cpan.org>
 
@@ -82,15 +68,10 @@ AUTHORS
 
     *   David Golden <dagolden@cpan.org>
 
-CONTRIBUTORS
-    *   Michael G. Schwern <schwern@pobox.com>
-
-    *   Neil Kirsopp <neil@broadbean.com>
-
-    *   Nick S. Knutov <nick@knutov.com>
+    *   Yanick Champoux <yanick@cpan.org>
 
 COPYRIGHT AND LICENSE
-    This software is copyright (c) 2013 by Alex Kapranoff.
+    This software is copyright (c) 2014 by Alex Kapranoff.
 
     This is free software; you can redistribute it and/or modify it under
     the same terms as the Perl 5 programming language system itself.
