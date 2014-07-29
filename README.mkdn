@@ -4,7 +4,7 @@ Dancer::Session::Cookie - Encrypted cookie-based session backend for Dancer
 
 # VERSION
 
-version 0.23
+version 0.24
 
 # SYNOPSIS
 

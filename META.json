@@ -74,7 +74,7 @@
    "provides" : {
       "Dancer::Session::Cookie" : {
          "file" : "lib/Dancer/Session/Cookie.pm",
-         "version" : "0.23"
+         "version" : "0.24"
       }
    },
    "release_status" : "stable",
@@ -89,7 +89,7 @@
          "web" : "https://github.com/perldancer/Dancer-Session-Cookie"
       }
    },
-   "version" : "0.23",
+   "version" : "0.24",
    "x_authority" : "cpan:YANICK",
    "x_contributors" : [
       "Breno G. de Oliveira <garu@cpan.org>",
