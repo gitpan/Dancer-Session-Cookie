@@ -21,7 +21,7 @@ my %module_build_args = (
     "Yanick Champoux <yanick\@cpan.org>"
   ],
   "dist_name" => "Dancer-Session-Cookie",
-  "dist_version" => "0.24",
+  "dist_version" => "0.25",
   "license" => "perl",
   "module_name" => "Dancer::Session::Cookie",
   "recommends" => {},
@@ -49,16 +49,13 @@ my %module_build_args = (
     "File::Spec" => 0,
     "File::Temp" => 0,
     "FindBin" => 0,
-    "HTTP::Cookies" => 0,
     "HTTP::Date" => 0,
     "IO::Handle" => 0,
     "IPC::Open3" => 0,
-    "LWP" => 0,
-    "LWP::UserAgent" => 0,
     "Test::Exception" => 0,
     "Test::More" => "0.96",
     "Test::NoWarnings" => 0,
-    "Test::TCP" => 0,
+    "Test::WWW::Mechanize::PSGI" => 0,
     "perl" => "5.006"
   }
 );
@@ -70,17 +67,14 @@ my %fallback_build_requires = (
   "File::Spec" => 0,
   "File::Temp" => 0,
   "FindBin" => 0,
-  "HTTP::Cookies" => 0,
   "HTTP::Date" => 0,
   "IO::Handle" => 0,
   "IPC::Open3" => 0,
-  "LWP" => 0,
-  "LWP::UserAgent" => 0,
   "Module::Build" => "0.3601",
   "Test::Exception" => 0,
   "Test::More" => "0.96",
   "Test::NoWarnings" => 0,
-  "Test::TCP" => 0,
+  "Test::WWW::Mechanize::PSGI" => 0,
   "perl" => "5.006"
 );
 
